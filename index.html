@@ -1,0 +1,71 @@
+<html ng-app="root">
+<div class="container" ng-controller="index">
+
+		  <div class="box margin-right" id="shopping-list">
+		    <h1>Caixa</h1>
+		    
+		    <div id="errorMessage"><i class="icon-cross"></i>Please enter all inputs!</div>
+		    
+		    <div id="successMessage"><i class="icon-checkmark"></i>Item adicionado!</div>
+		    
+		    <div class="half margin-right">
+		     <input type='text'   class="searchButton" placeholder='Item Name' ng-model="itemName" autofocus required>
+		    </div><div class="half"><input type='text'   class="searchButton" placeholder='Tipo' ng-model="itemShop" required></div>
+		     <div class="half margin-right">
+		     	<input type='number' class="searchButton margin-right" placeholder='Quantidade' ng-model="itemQuantity" required>
+		    </div><div class="dollar half"> 
+		      <span>R$</span>
+		      <input type='number' class="searchButton" placeholder='Preço (cada)' ng-model="itemPrice" required>
+		    </div>
+		    
+		    <button id="addItem" ng-click="addItem()">Adicionar Item</button>
+		
+		    <div class="list">
+		      <table border="0" cellspacing="0">
+		        <tr class="table-header">
+		          <td></td>
+		          <td class="left">Nome</td>
+		          <td class="left">Tipo</td>
+		          <td>Quantidade</td>
+		          <td class="center">Preço</td>
+		          <td class="center">Deletar</td>
+		        </tr>
+		        <tr ng-repeat="item in list | orderBy: '-checked':true">
+		          <td><input ng-show="!item.checked" ng-checked="item.checked" ng-click="add(item, list)" type='checkbox' checklist-value="item.checked"></td>
+		          <td ng-class="{selected: item.checked==true}">{{item.name}}</td>
+		          <td ng-class="{selected: item.checked==true}" class="left">{{item.shop}}</td>
+		          <td ng-class="{selected: item.checked==true}" class="center">{{item.quantity}}</td>
+		          <td ng-class="{selected: item.checked==true}">{{item.price | currency}}</td>
+		          <td><i class="icon-cross delete" ng-click="remove(item)"></i></td>
+		        </tr>
+		      </table>
+		      <div ng-hide="list.length" class="center">Lista do caixa vazio.</div>
+		      <div class="cost cf">
+		        <span class="left">Custo total:</span>
+		        <span class="right" ng-class="{total: length!==0}">{{getTotal() | currency}}</span>
+		      </div>
+		      <button class="clear" ng-click="clearAll(list)">Limpar lista de </button>
+		    </div>
+		  </div>
+		  
+		  <div class="box" id="inventory">
+		    <h1>Inventário</h1>
+		    <div class="list">
+		      <table border="0" cellspacing="0">
+		        <div ng-hide="inventory.length" class="center">Seu inventário está vazio.</div>
+		        <tr ng-repeat="item in inventory">
+		          <td>{{item.name}}</td>
+		          <td class="left">{{item.shop}}</td>
+		          <td class="center">{{item.quantity}}</td>
+		          <td class="center">{{item.price | currency}}</td>
+		          <td><i class="icon-cross delete" ng-click="removeInventory(item)"></i></td>
+		        </tr>
+		      </table>
+		      <button class="clear" ng-click="clearAll(inventory)">Limpar Inventário</button>
+		  </div>
+		  </div>
+		</div>
+</html>
+
+
+
